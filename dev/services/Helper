@@ -1,0 +1,84 @@
+
+
+Font's:
+//for a header:
+Font header = new Font("Roboto Slab", Font.BOLD, 50);
+
+
+
+
+
+//to maximize the window:
+jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+
+
+
+// to get input from the user use JOptionPane its a pop up window that take input from the user
+
+
+
+// String[] options = {"1. SHOTEF", "2. SHOTEF+30", "3. SHOTEF+60"};
+              String message = "Payment method:";
+              int paymentNum = JOptionPane.showOptionDialog(null, message, "Payment Method", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+
+
+
+//this i the class that you should make btton from
+
+
+   private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(180, 60));
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setBackground(new Color(235, 235, 235));
+        button.setForeground(Color.DARK_GRAY);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
+    }
+
+    // JButton backButton = new JButton("Back");
+                      backButton.addActionListener(new ActionListener() {
+                      @Override
+                      public void actionPerformed(ActionEvent e) {
+                          // Handle the back button click event
+                          // Add your code here to go back to the previous view or screen
+
+                          // For example, you can close the current JFrame
+                          JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(backButton);
+                          frame.dispose();
+                      }
+
+
+    // private void ad_table(JTable jTable){
+              TableColumnModel columnModel = jTable.getColumnModel();
+
+
+              for (int columnIndex = 0; columnIndex < columnModel.getColumnCount(); columnIndex++) {
+                  TableColumn column = columnModel.getColumn(columnIndex);
+                  int preferredWidth = column.getPreferredWidth();
+                  int maxWidth = column.getMaxWidth();
+
+                  // Get the renderer for the column
+                  TableCellRenderer headerRenderer = column.getHeaderRenderer();
+                  if (headerRenderer == null) {
+                      headerRenderer = jTable.getTableHeader().getDefaultRenderer();
+                  }
+                  Component headerComponent = headerRenderer.getTableCellRendererComponent(
+                          jTable, column.getHeaderValue(), false, false, -1, columnIndex);
+
+                  // Determine the maximum width needed for the column
+                  int headerWidth = headerComponent.getPreferredSize().width;
+                  int cellWidth = jTable.getCellRenderer(0, columnIndex)
+                          .getTableCellRendererComponent(jTable,
+                                  jTable.getValueAt(0, columnIndex), false, false, 0, columnIndex)
+                          .getPreferredSize().width;
+                  int maxWidthNeeded = Math.max(headerWidth, cellWidth) + 10; // Add some padding
+
+                  // Adjust the preferred width and maximum width of the column
+                  column.setPreferredWidth(Math.min(maxWidthNeeded, preferredWidth));
+                  column.setMaxWidth(maxWidth > 0 ? Math.min(maxWidthNeeded, maxWidth) : maxWidthNeeded);
+              }
